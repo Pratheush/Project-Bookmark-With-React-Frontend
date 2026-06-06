@@ -1,0 +1,75 @@
+PS C:\Users\prath> wsl -d ubuntu
+Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 6.6.87.2-microsoft-standard-WSL2 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Sat Jun  6 10:05:49 IST 2026
+
+  System load:  1.43                Processes:             55
+  Usage of /:   1.1% of 1006.85GB   Users logged in:       0
+  Memory usage: 17%                 IPv4 address for eth0: 172.26.238.72
+  Swap usage:   0%
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+This message is shown once a day. To disable it please create the
+/home/pratheush/.hushlogin file.
+pratheush@Lord-Shiva:/mnt/c/Users/prath$ service redis-server start
+Failed to start redis-server.service: Interactive authentication required.
+See system logs and 'systemctl status redis-server.service' for details.
+pratheush@Lord-Shiva:/mnt/c/Users/prath$ sudo service redis-server start
+[sudo] password for pratheush:
+pratheush@Lord-Shiva:/mnt/c/Users/prath$ sudo service redis-server status
+● redis-server.service - Advanced key-value store
+     Loaded: loaded (/lib/systemd/system/redis-server.service; disabled; vendor preset: enabled)
+     Active: active (running) since Sat 2026-06-06 10:08:26 IST; 3s ago
+       Docs: http://redis.io/documentation,
+             man:redis-server(1)
+   Main PID: 1302 (redis-server)
+     Status: "Ready to accept connections"
+      Tasks: 5 (limit: 11924)
+     Memory: 5.4M
+        CPU: 58ms
+     CGroup: /system.slice/redis-server.service
+             └─1302 "/usr/bin/redis-server 127.0.0.1:6379" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" >
+
+Jun 06 10:08:26 Lord-Shiva systemd[1]: Starting Advanced key-value store...
+Jun 06 10:08:26 Lord-Shiva systemd[1]: Started Advanced key-value store.
+pratheush@Lord-Shiva:/mnt/c/Users/prath$ redis-cli
+127.0.0.1:6379> KEYS *
+1) "bookmarks::FindBookmarksQuery[pageNo=2, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+2) "bookmarks::FindBookmarksQuery[pageNo=4, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+3) "bookmarks::FindBookmarksQuery[pageNo=3, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+4) "bookmarks::FindBookmarksQuery[pageNo=1, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+5) "bookmarks::FindBookmarksQuery[pageNo=5, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379> KEYS *
+1) "bookmarks::1-10-createdAt-DESC-"
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379>
+
+
+
+127.0.0.1:6379> KEYS *
+1) "bookmarks::FindBookmarksQuery[pageNo=2, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+2) "bookmarks::FindBookmarksQuery[pageNo=1, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+
+
+127.0.0.1:6379> get bookmarks::FindBookmarksQuery[pageNo=2, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]
+(error) ERR wrong number of arguments for 'get' command
+
+
+127.0.0.1:6379> get "bookmarks::FindBookmarksQuery[pageNo=2, pageSize=10, search=, sortField=createdAt, sortDirection=DESC]"
+"{\"@class\":\"com.example.pbookmark.domain.PagedResult\",\"data\":[\"java.util.Collections$UnmodifiableRandomAccessList\",[{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":883,\"title\":\"Spring Boot Actuator Advanced Usage\",\"url\":\"https://dummydata.dev/spring-boot-actuator-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":885,\"title\":\"Building REST APIs Advanced Usage\",\"url\":\"https://dummydata.dev/rest-apis-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":876,\"title\":\"Database Optimization Advanced Usage\",\"url\":\"https://dummydata.dev/database-optimization-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":886,\"title\":\"Securing Microservices Advanced Usage\",\"url\":\"https://dummydata.dev/securing-microservices-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":882,\"title\":\"Rate Limiting Advanced Usage\",\"url\":\"https://dummydata.dev/rate-limiting-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":881,\"title\":\"Resilience4j Retry Advanced Usage Config\",\"url\":\"https://dummydata.dev/resilience4j-retry-usage-config\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":880,\"title\":\"API Gateway Token Management Advanced Usage\",\"url\":\"https://dummydata.dev/api-gateway-token-management-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":879,\"title\":\"Kubernetes Pod Security Advanced Usage\",\"url\":\"https://dummydata.dev/kubernetes-pod-security-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":878,\"title\":\"Spring Boot Configurations Advanced Usage\",\"url\":\"https://dummydata.dev/spring-boot-configurations-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null},{\"@class\":\"com.example.pbookmark.domain.BookmarkDTO\",\"id\":877,\"title\":\"JVM Performance Advanced Usage\",\"url\":\"https://dummydata.dev/jvm-performance-usage\",\"createdAt\":\"2026-06-06T06:51:57.801803Z\",\"updatedAt\":null}]],\"totalElements\":1333,\"pageNumber\":2,\"totalPages\":134,\"isFirst\":false,\"isLast\":false,\"hasNext\":true,\"hasPrevious\":true}"
+127.0.0.1:6379>
